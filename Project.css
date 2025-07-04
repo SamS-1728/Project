@@ -1,0 +1,33 @@
+.algo_list {
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  padding: 20px;
+  width: 90%;
+  height: 100px;
+  background-color: #4ca63c;
+  cursor: grab;
+  align-items: center;
+  justify-content: center;
+}
+#selection {
+  display: flex;
+  flex-flow: row wrap;
+  width: 40%;
+  align-items: center;
+  justify-content: center;
+}
+#input {
+  display: flex;
+  flex-direction: row wrap;
+  width: 60%;
+}
+#input_box {
+  width: 90%;
+  height: 300px;
+  border-radius: 25px;
+  padding: 20px;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: lightgray;
+}
