@@ -5,68 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="Project.css" />
-    <title>Encryption things</title>
+    <title>Encryption</title>
   </head>
   <body>
     <div style="display: flex">
       <div id="selection">
-        <button class="algo_list" draggable="true">
+        <button class="algo_list" id="caesar" draggable="true" style="background-color:#B2F2B2">
           Caesar cipher
           <p>A simple rotational cipher developed in the....</p>
         </button>
-        <button class="algo_list" draggable="true">
+        <div class="algo_inputs" id = "caesar_inputs">Input here</div>
+        <button class="algo_list" id="substitution" draggable="true" style="background-color:#C8E8A0">
           Substitution cipher
           <p>A more complex version of a caesar cipher that...</p>
         </button>
-        <button class="algo_list" draggable="true">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
+        <div class="algo_inputs" id = "substitution_inputs">Input here</div>
+        <button class="algo_list" id="affine" draggable="true" style="background-color:#D9DB8F">
+          Affine cipher
+          <p>...</p>
         </button>
-        <button class="algo_list" draggable="true">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
+        <div class="algo_inputs" id = "affine_inputs">Input here</div>
+        <button class="algo_list" id="polygraphic" draggable="true" style="background-color:#E6C87F">
+          Polygraphic cipher
+          <p>...</p>
         </button>
-        <button class="algo_list" draggable="true">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
+        <div class="algo_inputs" id = "polygraphic_inputs">Input here</div>
+        <button class="algo_list" id="homophonic" draggable="true" style="background-color:#F0B370">
+          Homophonic cipher
+          <p>...</p>
         </button>
-
-        <button class="algo_list" draggable="true">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
+        <div class="algo_inputs" id = "homophonic_inputs">Input here</div>
+        <button class="algo_list" id="rsa" draggable="true" style="background-color:#F89D63">
+          RSA
+          <p>...</p>
         </button>
-        <button class="algo_list" draggable="true">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
+        <div class="algo_inputs" id = "rsa_inputs">Input here</div>
+        <button class="algo_list" id="md5" draggable="true" style="background-color:#FC8775">
+          MD5
+          <p>...</p>
         </button>
-        <button class="algo_list" draggable="true">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
+        <div class="algo_inputs" id = "md5_inputs">Input here</div>
+        <button class="algo_list" id="sha256" draggable="true" style="background-color:#FF6B6B">
+          SHA-256
+          <p>...</p>
         </button>
-        <button class="algo_list" draggable="true">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
-        </button>
-        <button class="algo_list" draggable="true">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
-        </button>
-        <button class="algo_list" draggable="true">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
-        </button>
+        <div class="algo_inputs" id = "sha256_inputs">Input here</div>
       </div>
 
       <div id="input">
-        <textarea id="input_box">Input data here</textarea>
-
-        <div id="submit">
-          <a href="Project-result.html">
-            <button>
-              Submit
-            </button>
-          </a>
+        <div class="input_box">
+          <textarea
+            class="input_box"
+            id="input_text"
+            placeholder="Input data here"
+          ></textarea>
+          <button class="input_box" id="generate_text" onclick="random_text()">
+            Generate random text
+          </button>
         </div>
+        <div id="drop_area">
+          <textarea id="drop_target" disabled="disabled">Drop algorithms here</textarea>
+        </div>
+        <a href="Project-result.html"><button id="submit" onclick="final_submit()">
+          Submit
+        </button></a>
       </div>
     </div>
 

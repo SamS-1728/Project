@@ -1,33 +1,99 @@
 .algo_list {
-  display: flex;
-  flex-direction: column;
   border-radius: 25px;
   padding: 20px;
   width: 90%;
   height: 100px;
-  background-color: #4ca63c;
   cursor: grab;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  color:black;
 }
-#selection {
-  display: flex;
-  flex-flow: row wrap;
+
+.algo_inputs {
+  display:none;
   width: 40%;
-  align-items: center;
+  height: 100px;
+  border-style: solid;
+  padding:15px;
+}
+
+#selection {
+  flex-flow: row wrap;
+  width: 30%;
   justify-content: center;
 }
+
 #input {
   display: flex;
-  flex-direction: row wrap;
-  width: 60%;
+  flex-flow: row wrap;
+  justify-content: center;
+  width: 70%;
+  height: fit-content;
+  gap: 20px;
 }
-#input_box {
+.input_box {
+  position:relative;
+  flex-direction: column;
   width: 90%;
   height: 300px;
   border-radius: 25px;
-  padding: 20px;
-  align-items: flex-start;
-  justify-content: center;
+  padding: 2%;
+  justify-content: flex-end;
   background-color: lightgray;
 }
+#input_text {
+  border: none;
+  resize: none;
+  width: 90%;
+  height: 75%;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+}
+#generate_text {
+  width: 150px;
+  height: 35px;
+  background-color: white;
+  position:absolute;
+  right:5px;
+  bottom:5px;
+  justify-content: center;
+  align-items: center;
+}
+::placeholder {
+  color:black;
+  opacity: 0.6;
+}
+#drop_area {
+  display:flex;
+  flex-flow: row wrap;
+  width: 100%;
+  padding: 15px;
+}
+#drop_target {
+  resize:none;
+  width: 40%;
+  height: 100px;
+  border-radius: 20px;
+  justify-content: flex-start;
+  border-style: dashed;
+  text-align: center;
+  font-size: large;
+}
+a {
+  text-decoration: none;
+}
+#submit {
+  display:none;
+  width: fit-content;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #12db30;
+  color: white;
+  font-size: large;
+  padding: 15px;
+}
+
