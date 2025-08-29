@@ -7,49 +7,96 @@
     <link rel="stylesheet" href="Project.css" />
     <title>Encryption</title>
   </head>
-  <body>
+  <body id="initial_page">
     <div style="display: flex">
       <div id="selection">
-        <button class="algo_list" id="caesar" draggable="true" style="background-color:#B2F2B2">
-          Caesar cipher
-          <p>A simple rotational cipher developed in the....</p>
+        <button class="algo_list" id="caesar" draggable="true">
+          <img class="algo_logo" src="Images/caesar.png"/>
+          <div class="algo_name">
+            Caesar cipher
+            <div class="algo_description">
+              A simple rotational cipher developed in the Roman era that allowed military information to remain secret
+            </div>
+          </div>
         </button>
-        <div class="algo_inputs" id = "caesar_inputs">Input here</div>
-        <button class="algo_list" id="substitution" draggable="true" style="background-color:#C8E8A0">
-          Substitution cipher
-          <p>A more complex version of a caesar cipher that...</p>
+        <div class="algo_inputs" id="caesar_inputs">Input here</div>
+
+        <button class="algo_list" id="substitution" draggable="true">
+          <img class="algo_logo" src="Images/substitution.png"/>
+          <div class="algo_name">
+            Substitution cipher
+            <div class="algo_description">
+              A more complex version of a caesar cipher that replaces each letter with another letter according to a fixed system
+            </div>
+          </div>
         </button>
-        <div class="algo_inputs" id = "substitution_inputs">Input here</div>
-        <button class="algo_list" id="affine" draggable="true" style="background-color:#D9DB8F">
-          Affine cipher
-          <p>...</p>
+        <div class="algo_inputs" id="substitution_inputs">Input here</div>
+
+        <button class="algo_list" id="affine" draggable="true">
+          <img class="algo_logo" src="Images/affine.png"/>
+          <div class="algo_name">
+            Affine cipher
+            <div class="algo_description">
+              A cipher that uses mathematical functions to encrypt each letter in the plaintext
+            </div>
+          </div>
         </button>
-        <div class="algo_inputs" id = "affine_inputs">Input here</div>
-        <button class="algo_list" id="polygraphic" draggable="true" style="background-color:#E6C87F">
-          Polygraphic cipher
-          <p>...</p>
+        <div class="algo_inputs" id="affine_inputs">Input here</div>
+
+        <button class="algo_list" id="polygraphic" draggable="true">
+          <img class="algo_logo" src="Images/polygraphic.png"/>
+          <div class="algo_name">
+            Polygraphic cipher
+            <div class="algo_description">
+              A cipher that encrypts blocks of letters together instead of single letters
+            </div>
+          </div>
         </button>
-        <div class="algo_inputs" id = "polygraphic_inputs">Input here</div>
-        <button class="algo_list" id="homophonic" draggable="true" style="background-color:#F0B370">
-          Homophonic cipher
-          <p>...</p>
+        <div class="algo_inputs" id="polygraphic_inputs">Input here</div>
+
+        <button class="algo_list" id="homophonic" draggable="true">
+          <img class="algo_logo" src="Images/homophonic.png"/>
+          <div class="algo_name">
+            Homophonic cipher
+            <div class="algo_description">
+              A cipher that replaces each plaintext letter with one of several possible ciphertext symbols
+            </div>
+          </div>
         </button>
-        <div class="algo_inputs" id = "homophonic_inputs">Input here</div>
-        <button class="algo_list" id="rsa" draggable="true" style="background-color:#F89D63">
-          RSA
-          <p>...</p>
+        <div class="algo_inputs" id="homophonic_inputs">Input here</div>
+
+        <button class="algo_list" id="rsa" draggable="true">
+          <img class="algo_logo" src="Images/rsa.png"/>
+          <div class="algo_name">
+            RSA
+            <div class="algo_description">
+              A widely used public-key cryptosystem for secure data transmission
+            </div>
+          </div>
         </button>
-        <div class="algo_inputs" id = "rsa_inputs">Input here</div>
-        <button class="algo_list" id="md5" draggable="true" style="background-color:#FC8775">
-          MD5
-          <p>...</p>
+        <div class="algo_inputs" id="rsa_inputs">Input here</div>
+
+        <button class="algo_list" id="md5" draggable="true">
+          <img class="algo_logo" src="Images/md5.png"/>
+          <div class="algo_name">
+            MD5
+            <div class="algo_description">
+              A hash function producing a 128-bit hash value, commonly used for checksums
+            </div>
+          </div>
         </button>
-        <div class="algo_inputs" id = "md5_inputs">Input here</div>
-        <button class="algo_list" id="sha256" draggable="true" style="background-color:#FF6B6B">
-          SHA-256
-          <p>...</p>
+        <div class="algo_inputs" id="md5_inputs">Input here</div>
+
+        <button class="algo_list" id="sha256" draggable="true">
+          <img class="algo_logo" src="Images/sha256.png"/>
+          <div class="algo_name">
+            SHA-256
+            <div class="algo_description">
+              A cryptographic hash function that generates a 256-bit signature for a text
+            </div>
+          </div>
         </button>
-        <div class="algo_inputs" id = "sha256_inputs">Input here</div>
+        <div class="algo_inputs" id="sha256_inputs">Input here</div>
       </div>
 
       <div id="input">
@@ -64,12 +111,16 @@
           </button>
         </div>
         <div id="drop_area">
-          <textarea id="drop_target" disabled="disabled">Drop algorithms here</textarea>
+          <textarea id="drop_target" disabled="disabled">
+Drop algorithms here</textarea
+          >
         </div>
-        <a href="Project-result.html"><button id="submit" onclick="final_submit()">
-          Submit
-        </button></a>
-      </div>
+        <a href="Project-result.html"
+          ><button id="submit" onclick="initial_submit()">Submit</button></a
+        >
+
+        <p id="submit_note">(Any empty fields will be filled with random values)</p>
+
     </div>
 
     <script src="Project.js"></script>

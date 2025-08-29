@@ -1,20 +1,54 @@
+
+body {
+  font-family: 'Segoe UI', 'Arial', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 .algo_list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
   border-radius: 25px;
-  padding: 20px;
+  padding: 15px;
   width: 90%;
   height: 100px;
   cursor: grab;
-  align-items: center;
-  justify-content: flex-start;
-  color:black;
+  color: black;
+}
+
+.algo_logo {
+  align-self: center;
+  max-height: 70px;
+  max-width: 70px;
+}
+.algo_logo_smaller{
+  align-self: center;
+  max-height: 50px;
+  max-width: 50px;  
+}
+.algo_name {
+  display:flex;
+  flex-direction: column;
+  margin-left: 5px;
+  font-size: x-large;
+  font-weight: bold;
+
+}
+.algo_description {
+  display:flex;
+  text-align: left;
+  font-size: small;
+  font-weight: normal;
 }
 
 .algo_inputs {
-  display:none;
-  width: 40%;
-  height: 100px;
-  border-style: solid;
-  padding:15px;
+  display: none;
+  width: 55%;
+  height: 60px;
+  border-radius: 25px;
+  padding: 20px;
+  font-size: small;
+  font-weight: normal;
 }
 
 #selection {
@@ -32,7 +66,7 @@
   gap: 20px;
 }
 .input_box {
-  position:relative;
+  position: relative;
   flex-direction: column;
   width: 90%;
   height: 300px;
@@ -50,30 +84,31 @@
   justify-content: center;
   align-items: center;
   outline: none;
+  font-size:small;
 }
 #generate_text {
   width: 150px;
   height: 35px;
   background-color: white;
-  position:absolute;
-  right:5px;
-  bottom:5px;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
   justify-content: center;
   align-items: center;
 }
 ::placeholder {
-  color:black;
+  color: black;
   opacity: 0.6;
 }
 #drop_area {
-  display:flex;
+  display: flex;
   flex-flow: row wrap;
   width: 100%;
   padding: 15px;
 }
 #drop_target {
-  resize:none;
-  width: 40%;
+  resize: none;
+  width: 100%;
   height: 100px;
   border-radius: 20px;
   justify-content: flex-start;
@@ -84,8 +119,14 @@
 a {
   text-decoration: none;
 }
+#submit_note {
+  display: none;
+  align-items: center;
+  font-size: small;
+  color: red;
+}
 #submit {
-  display:none;
+  display: none;
   width: fit-content;
   height: 40px;
   justify-content: center;
@@ -97,3 +138,39 @@ a {
   padding: 15px;
 }
 
+#results_layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+.results_column {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+}
+.results_section {
+  display: flex;
+  flex-direction: column;
+
+  height: fit-content;
+  border-radius: 20px;
+  padding: 2%;
+  gap: 2px;
+}
+.subheading {
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+}
+.title {
+  flex-direction: row;
+  font-size:  x-large;
+  font-weight: bold;
+  text-align: left;
+  align-items: center;
+  justify-content: space-between;
+  height:50px;
+  gap:5px;
+  padding: 10px;
+}
