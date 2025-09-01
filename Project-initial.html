@@ -1,128 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="Project.css" />
-    <title>Encryption</title>
-  </head>
-  <body id="initial_page">
-    <div style="display: flex">
-      <div id="selection">
-        <button class="algo_list" id="caesar" draggable="true">
-          <img class="algo_logo" src="Images/caesar.png"/>
-          <div class="algo_name">
-            Caesar cipher
-            <div class="algo_description">
-              A simple rotational cipher developed in the Roman era that allowed military information to remain secret
-            </div>
-          </div>
-        </button>
-        <div class="algo_inputs" id="caesar_inputs">Input here</div>
 
-        <button class="algo_list" id="substitution" draggable="true">
-          <img class="algo_logo" src="Images/substitution.png"/>
-          <div class="algo_name">
-            Substitution cipher
-            <div class="algo_description">
-              A more complex version of a caesar cipher that replaces each letter with another letter according to a fixed system
-            </div>
-          </div>
-        </button>
-        <div class="algo_inputs" id="substitution_inputs">Input here</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="Project.css" />
+  <title>Encryption</title>
+</head>
 
-        <button class="algo_list" id="affine" draggable="true">
-          <img class="algo_logo" src="Images/affine.png"/>
-          <div class="algo_name">
-            Affine cipher
-            <div class="algo_description">
-              A cipher that uses mathematical functions to encrypt each letter in the plaintext
+<body id="initial_page">
+  <div style="display: flex">
+    <div id="selection">
+      <button class="algo_list" id="caesar" draggable="true" disabled="disabled">
+        <img class="algo_logo" src="Images/caesar.png" />
+        <div class="algo_name">
+          Caesar cipher
+          <div class="algo_description">
+            A simple rotational cipher developed in the Roman era that allowed military information to remain secret
+          </div>
+        </div>
+      </button>
+      <div class="algo_inputs" id="caesar_inputs">
+        <form>
+          <div class="algo_inputs_column">
+            <div class="algo_inputs_line">
+              <label for="caesar_shift">Shift (1-25): </label>
+              <input type="number" id="caesar_shift" name="caesar_shift" min="1" max="25" placeholder="13" /><br />
             </div>
           </div>
-        </button>
-        <div class="algo_inputs" id="affine_inputs">Input here</div>
+          <div class="algo_inputs_column">
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="caesar_spaces" name="caesar_spaces" />
+              <label for="caesar_spaces">Remove spaces</label>
+            </div>
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="caesar_punctuation" name="caesar_punctuation" />
+              <label for="caesar_punctuation">Remove punctuation</label><br />
+            </div>
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="caesar_case" name="caesar_case" />
+              <label for="caesar_case">Remove case</label><br />
 
-        <button class="algo_list" id="polygraphic" draggable="true">
-          <img class="algo_logo" src="Images/polygraphic.png"/>
-          <div class="algo_name">
-            Polygraphic cipher
-            <div class="algo_description">
-              A cipher that encrypts blocks of letters together instead of single letters
             </div>
           </div>
-        </button>
-        <div class="algo_inputs" id="polygraphic_inputs">Input here</div>
-
-        <button class="algo_list" id="homophonic" draggable="true">
-          <img class="algo_logo" src="Images/homophonic.png"/>
-          <div class="algo_name">
-            Homophonic cipher
-            <div class="algo_description">
-              A cipher that replaces each plaintext letter with one of several possible ciphertext symbols
-            </div>
-          </div>
-        </button>
-        <div class="algo_inputs" id="homophonic_inputs">Input here</div>
-
-        <button class="algo_list" id="rsa" draggable="true">
-          <img class="algo_logo" src="Images/rsa.png"/>
-          <div class="algo_name">
-            RSA
-            <div class="algo_description">
-              A widely used public-key cryptosystem for secure data transmission
-            </div>
-          </div>
-        </button>
-        <div class="algo_inputs" id="rsa_inputs">Input here</div>
-
-        <button class="algo_list" id="md5" draggable="true">
-          <img class="algo_logo" src="Images/md5.png"/>
-          <div class="algo_name">
-            MD5
-            <div class="algo_description">
-              A hash function producing a 128-bit hash value, commonly used for checksums
-            </div>
-          </div>
-        </button>
-        <div class="algo_inputs" id="md5_inputs">Input here</div>
-
-        <button class="algo_list" id="sha256" draggable="true">
-          <img class="algo_logo" src="Images/sha256.png"/>
-          <div class="algo_name">
-            SHA-256
-            <div class="algo_description">
-              A cryptographic hash function that generates a 256-bit signature for a text
-            </div>
-          </div>
-        </button>
-        <div class="algo_inputs" id="sha256_inputs">Input here</div>
+        </form>
       </div>
 
-      <div id="input">
-        <div class="input_box">
-          <textarea
-            class="input_box"
-            id="input_text"
-            placeholder="Input data here"
-          ></textarea>
-          <button class="input_box" id="generate_text" onclick="random_text()">
-            Generate random text
-          </button>
+      <button class="algo_list" id="substitution" draggable="true" disabled="disabled">
+        <img class="algo_logo" src="Images/substitution.png" />
+        <div class="algo_name">
+          Substitution cipher
+          <div class="algo_description">
+            A more complex version of a caesar cipher that replaces each letter with another letter according to a fixed
+            system
+          </div>
         </div>
-        <div id="drop_area">
-          <textarea id="drop_target" disabled="disabled">
-Drop algorithms here</textarea
-          >
+      </button>
+      <div class="algo_inputs" id="substitution_inputs">
+        <form>
+          <div class="algo_inputs_column">
+            <div class="algo_inputs_line">
+              <label for="substitution_keyword">Keyword: </label>
+            </div>
+            <div class="algo_inputs_line">
+              <input type="text" id="substitution_keyword" name="substitution_keyword" placeholder="CIPHER" />
+            </div>
+          </div>
+          <div class="algo_inputs_column">
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="substitution_spaces" name="substitution_spaces" />
+              <label for="substitution_spaces">Remove spaces</label>
+            </div>
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="substitution_punctuation" name="substitution_punctuation" />
+              <label for="substitution_punctuation">Remove punctuation</label><br />
+            </div>
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="substitution_case" name="substitution_case" />
+              <label for="substitution_case">Remove case</label><br />
+
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+      <button class="algo_list" id="affine" draggable="true" disabled="disabled">
+        <img class="algo_logo" src="Images/affine.png" />
+        <div class="algo_name">
+          Affine cipher
+          <div class="algo_description">
+            A cipher that uses mathematical functions to encrypt each letter in the plaintext
+          </div>
         </div>
-        <a href="Project-result.html"
-          ><button id="submit" onclick="initial_submit()">Submit</button></a
-        >
+      </button>
+      <div class="algo_inputs" id="affine_inputs">
+        <form>
+          <div class="algo_inputs_column">
+            <div class="algo_inputs_line">
+              <label for="affine_a">a (1-25): </label>
+              <input type="number" id="affine_a" name="affine_a" min="1" max="25" placeholder="2" /><br />
+            </div>
+            <div style="height:8px"></div>
+            <div class="algo_inputs_line">
+              <label for="affine_b">b (1-25): </label>
+              <input type="number" id="affine_b" name="affine_b" min="0" max="25" placeholder="0" /><br />
+            </div>
+          </div>
+          <div class="algo_inputs_column">
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="affine_spaces" name="affine_spaces" />
+              <label for="affine_spaces">Remove spaces</label>
+            </div>
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="affine_punctuation" name="affine_punctuation" />
+              <label for="affine_punctuation">Remove punctuation</label><br />
+            </div>
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="affine_case" name="affine_case" />
+              <label for="affine_case">Remove case</label><br />
 
-        <p id="submit_note">(Any empty fields will be filled with random values)</p>
+            </div>
+          </div>
+        </form>
+      </div>
 
+      <button class="algo_list" id="polygraphic" draggable="true" disabled="disabled">
+        <img class="algo_logo" src="Images/polygraphic.png" />
+        <div class="algo_name">
+          Polygraphic cipher
+          <div class="algo_description">
+            A cipher that encrypts blocks of letters together instead of single letters
+          </div>
+        </div>
+      </button>
+      <div class="algo_inputs" id="polygraphic_inputs">Input here</div>
+
+      <button class="algo_list" id="homophonic" draggable="true" disabled="disabled">
+        <img class="algo_logo" src="Images/homophonic.png" />
+        <div class="algo_name">
+          Homophonic cipher
+          <div class="algo_description">
+            A cipher that replaces each plaintext letter with one of several possible ciphertext symbols
+          </div>
+        </div>
+      </button>
+      <div class="algo_inputs" id="homophonic_inputs">Input here</div>
+
+      <button class="algo_list" id="rsa" draggable="true" disabled="disabled">
+        <img class="algo_logo" src="Images/rsa.png" />
+        <div class="algo_name">
+          RSA
+          <div class="algo_description">
+            A widely used public-key cryptosystem for secure data transmission
+          </div>
+        </div>
+      </button>
+      <div class="algo_inputs" id="rsa_inputs">Input here</div>
+
+      <button class="algo_list" id="md5" draggable="true" disabled="disabled">
+        <img class="algo_logo" src="Images/md5.png" />
+        <div class="algo_name">
+          MD5
+          <div class="algo_description">
+            A hash function producing a 128-bit hash value, commonly used for checksums
+          </div>
+        </div>
+      </button>
+      <div class="algo_inputs" id="md5_inputs">Input here</div>
+
+      <button class="algo_list" id="sha256" draggable="true" disabled="disabled">
+        <img class="algo_logo" src="Images/sha256.png" />
+        <div class="algo_name">
+          SHA-256
+          <div class="algo_description">
+            A cryptographic hash function that generates a 256-bit signature for a text
+          </div>
+        </div>
+      </button>
+      <div class="algo_inputs" id="sha256_inputs">Input here</div>
+    </div>
+
+    <div id="input">
+      <div class="input_box">
+        <textarea class="input_box" id="input_text" placeholder="Input data here"></textarea>
+        <button class="input_box" id="generate_text" onclick="random_text()">
+          Generate random text
+        </button>
+      </div>
+      <div id="submit_container"><a href="Project-result.html"><button id="submit"
+            onclick="initial_submit()">Submit</button></a></div>
+      <div id="drop_area">
+        <textarea id="drop_target" disabled="disabled">Drop algorithms here</textarea>
+      </div>
     </div>
 
     <script src="Project.js"></script>
-  </body>
+</body>
+
 </html>
