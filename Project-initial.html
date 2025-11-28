@@ -7,11 +7,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="stylesheet" href="Project.css" />
   <title>Encryption</title>
-</head>
 
 <body id="initial_page">
   <div style="display: flex">
+    <!--This is the algorithm selection pane-->
     <div id="selection">
+      <!--Each algorithm is a disabled button that can be dragged. Each one contains an image, name and description-->
       <button class="algo_list" id="caesar" draggable="true" disabled="disabled">
         <img class="algo_logo" src="Images/caesar.png" />
         <div class="algo_name">
@@ -21,15 +22,18 @@
           </div>
         </div>
       </button>
+      <!--Input sections are hidden using CSS, then the JS changes this when dragged-->
       <div class="algo_inputs" id="caesar_inputs">
         <form>
           <div class="algo_inputs_column">
             <div class="algo_inputs_line">
+              <!--Number entry for caesar shift-->
               <label for="caesar_shift">Shift (1-25): </label>
               <input type="number" id="caesar_shift" name="caesar_shift" min="1" max="25" placeholder="13" /><br />
             </div>
           </div>
           <div class="algo_inputs_column">
+            <!--These are the other options: spaces, punctuation and cases-->
             <div class="algo_inputs_line">
               <input type="checkbox" id="caesar_spaces" name="caesar_spaces" />
               <label for="caesar_spaces">Remove spaces</label>
@@ -46,7 +50,7 @@
           </div>
         </form>
       </div>
-
+      <!--Code for either ciphers is same as above, with algorithm information changed only-->
       <button class="algo_list" id="substitution" draggable="true" disabled="disabled">
         <img class="algo_logo" src="Images/substitution.png" />
         <div class="algo_name">
@@ -59,6 +63,7 @@
       </button>
       <div class="algo_inputs" id="substitution_inputs">
         <form>
+          <!-- Same inputs for algorithms that come under general substitution, plus the keyword entry-->
           <div class="algo_inputs_column">
             <div class="algo_inputs_line">
               <label for="substitution_keyword">Keyword: </label>
@@ -125,7 +130,7 @@
           </div>
         </form>
       </div>
-
+      <!-- All of algorithms can be dragged, however only have a placeholder for inputs, this is to be added in cycle 2-->
       <button class="algo_list" id="polygraphic" draggable="true" disabled="disabled">
         <img class="algo_logo" src="Images/polygraphic.png" />
         <div class="algo_name">
@@ -181,17 +186,19 @@
       </button>
       <div class="algo_inputs" id="sha256_inputs">Input here</div>
     </div>
-
+    <!-- Data input field includes generate random button, which generates shakespearean text by running a function in our JS-->
     <div id="input">
       <div class="input_box">
-        <textarea class="input_box" id="input_text" placeholder="Input data here"></textarea>
+        <textarea class="input_box" id="plaintext" placeholder="Input data here"></textarea>
         <button class="input_box" id="generate_text" onclick="random_text()">
           Generate random text
         </button>
       </div>
+      <!-- Submit opens the next page and uses the JS to pass over any required data-->
       <div id="submit_container"><a href="Project-result.html"><button id="submit"
             onclick="initial_submit()">Submit</button></a></div>
       <div id="drop_area">
+        <!-- This is where algorithm are dropped and subsequently appear, this is controlled by the JS-->
         <textarea id="drop_target" disabled="disabled">Drop algorithms here</textarea>
       </div>
     </div>

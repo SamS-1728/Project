@@ -1,5 +1,5 @@
 body {
-  font-family: "Segoe UI", "Arial", "Helvetica Neue", Helvetica, Arial,sans-serif;
+  font-family: "Segoe UI", "Arial", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .algo_list {
@@ -20,11 +20,13 @@ body {
   max-height: 70px;
   max-width: 70px;
 }
+
 .algo_logo_smaller {
   align-self: center;
   max-height: 50px;
   max-width: 50px;
 }
+
 .algo_name {
   display: flex;
   flex-direction: column;
@@ -32,6 +34,7 @@ body {
   font-size: x-large;
   font-weight: bold;
 }
+
 .algo_description {
   display: flex;
   text-align: left;
@@ -40,9 +43,9 @@ body {
 }
 
 form {
-  display:flex;
-  width:100%;
-  height:100%;
+  display: flex;
+  width: 100%;
+  height: 100%;
   flex-direction: row;
 }
 
@@ -61,19 +64,21 @@ input[type="number"] {
   font-size: medium;
   font-weight: normal;
 }
+
 .algo_inputs_column {
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 60px;
-  width:45%;
+  width: 45%;
 }
+
 .algo_inputs_line {
-  display:flex;
-  flex-direction:row;
+  display: flex;
+  flex-direction: row;
   height: fit-content;
-  width:100%;
-  gap:5px;
+  width: 100%;
+  gap: 5px;
 }
 
 #selection {
@@ -102,7 +107,8 @@ input[type="number"] {
   justify-content: flex-end;
   background-color: lightgray;
 }
-#input_text {
+
+#plaintext {
   border: none;
   resize: none;
   width: 90%;
@@ -113,6 +119,7 @@ input[type="number"] {
   outline: none;
   font-size: small;
 }
+
 #generate_text {
   width: 150px;
   height: 35px;
@@ -123,12 +130,13 @@ input[type="number"] {
   justify-content: center;
   align-items: center;
 }
+
 ::placeholder {
   color: black;
   opacity: 0.6;
 }
 
-#submit_container{
+#submit_container {
   display: none;
   width: 90%;
   justify-content: flex-end;
@@ -154,6 +162,7 @@ input[type="number"] {
   width: 100%;
   padding: 15px;
 }
+
 #drop_target {
   resize: none;
   width: 100%;
@@ -164,6 +173,7 @@ input[type="number"] {
   text-align: center;
   font-size: large;
 }
+
 a {
   text-decoration: none;
 }
@@ -174,15 +184,17 @@ a {
   justify-content: space-around;
   width: 100%;
 }
+
 .results_column {
   display: none;
   flex-direction: column;
   gap: 5px;
 }
+
 .results_section {
   display: flex;
   flex-direction: column;
-  font-size:small;
+  font-size: small;
   height: fit-content;
   justify-content: center;
   align-items: stretch;
@@ -190,20 +202,23 @@ a {
   padding: 2%;
   gap: 2px;
 }
+
 .section_content {
   flex: 1;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  text-align:center;
+  text-align: center;
 }
+
 .subheading {
   font-size: large;
   font-weight: bold;
   align-self: center;
   text-align: center;
-  margin-top:10px
+  margin-top: 10px
 }
+
 .title {
   flex-direction: row;
   font-size: x-large;

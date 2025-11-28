@@ -95,7 +95,7 @@ function extract(text) {
   text = text.slice(start, start + 1250);
   text = text.slice(text.indexOf("\n") + 1, text.lastIndexOf("\n"));
   text = text.replace(/\s+/g, " ");
-  document.getElementById("input_text").value = text.slice(1);
+  document.getElementById("plaintext").value = text.slice(1);
 }
 
 /* Handles the submission of the initial page */
@@ -105,8 +105,8 @@ function initial_submit() {
     JSON.stringify(selected_algorithms)
   );
   /* Stores all inputs */
-  var input_text = document.getElementById("input_text").value;
-  sessionStorage.setItem("input_text", input_text);
+  var plaintext = document.getElementById("plaintext").value;
+  sessionStorage.setItem("plaintext", plaintext);
   /* Each case stores the inputs for that specific algorithm in session storage */
   for (const algo of selected_algorithms) {
     switch (algo) {
@@ -174,12 +174,12 @@ function final_page_setup() {
       var section_id = document.getElementById(algo + "_" + section);
       section_heights.push(section_id.offsetHeight);
     }
-    new_height = Math.max(...section_heights)-8;
+    new_height = Math.max(...section_heights) - 8;
     console.log(section_heights)
     console.log(new_height)
     for (const algo of selected_algorithms) {
       var section_id = document.getElementById(algo + "_" + section);
-      section_id.style.minHeight = new_height+"px";
+      section_id.style.minHeight = new_height + "px";
       console.log(section_id.offsetHeight);
     }
   }
@@ -187,12 +187,12 @@ function final_page_setup() {
 
 /* The following functions implement each algorithm and insert these into the results page */
 function caesar() {
-  var input_text = sessionStorage.getItem("input_text");
-  input_text = general_substitution_inputs_handling("caesar", input_text);
+  var plaintext = sessionStorage.getItem("plaintext");
+  plaintext = general_substitution_inputs_handling("caesar", plaintext);
   var shift = parseInt(sessionStorage.getItem("caesar_shift")) % 26;
   var ciphertext = "";
-  for (var i = 0; i < input_text.length; i++) {
-    var value = input_text.charCodeAt(i);
+  for (var i = 0; i < plaintext.length; i++) {
+    var value = plaintext.charCodeAt(i);
     if (value >= 65 && value <= 90) {
       if (value + shift > 90) {
         value += shift - 26;
@@ -208,16 +208,16 @@ function caesar() {
       }
       ciphertext += String.fromCharCode(value);
     } else {
-      ciphertext += input_text[i];
+      ciphertext += plaintext[i];
     }
   }
   document.getElementById("caesar_ciphertext_content").innerHTML += `<p>${ciphertext}</p>`;
 }
 
 function substitution() {
-  var input_text = sessionStorage.getItem("input_text");
-  input_text = general_substitution_inputs_handling("substitution", input_text);
-  console.log(input_text)
+  var plaintext = sessionStorage.getItem("plaintext");
+  plaintext = general_substitution_inputs_handling("substitution", plaintext);
+  console.log(plaintext)
   var keyword = sessionStorage.getItem("substitution_keyword").toUpperCase();
   var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var substitution_alphabet = "";
@@ -233,24 +233,24 @@ function substitution() {
   console.log(substitution_alphabet)
   console.log(alphabet)
   var ciphertext = "";
-  for (var i = 0; i < input_text.length; i++) {
-    if (alphabet.includes(input_text[i])) {
-      ciphertext += substitution_alphabet[alphabet.indexOf(input_text[i])];
+  for (var i = 0; i < plaintext.length; i++) {
+    if (alphabet.includes(plaintext[i])) {
+      ciphertext += substitution_alphabet[alphabet.indexOf(plaintext[i])];
     } else {
-      ciphertext += input_text[i];
+      ciphertext += plaintext[i];
     }
   }
   document.getElementById("substitution_ciphertext_content").innerHTML += `<p>${ciphertext}</p>`;
 }
 
 function affine() {
-  var input_text = sessionStorage.getItem("input_text");
-  input_text = general_substitution_inputs_handling("affine", input_text);
+  var plaintext = sessionStorage.getItem("plaintext");
+  plaintext = general_substitution_inputs_handling("affine", plaintext);
   var a = parseInt(sessionStorage.getItem("affine_a"));
   var b = parseInt(sessionStorage.getItem("affine_b"));
   var ciphertext = "";
-  for (var i = 0; i < input_text.length; i++) {
-    var value = input_text.charCodeAt(i);
+  for (var i = 0; i < plaintext.length; i++) {
+    var value = plaintext.charCodeAt(i);
     if (value >= 65 && value <= 90) {
       value -= 64;
       value = (value * a + b) % 26;
@@ -266,27 +266,27 @@ function affine() {
       }
       ciphertext += String.fromCharCode(value + 96);
     } else {
-      ciphertext += input_text[i];
+      ciphertext += plaintext[i];
     }
   }
   document.getElementById("affine_ciphertext_content").innerHTML += `<p>${ciphertext}</p>`;
 }
 
 /* Acts on the inputs that are used across the general substitution ciphers */
-function general_substitution_inputs_handling(algo, input_text) {
+function general_substitution_inputs_handling(algo, plaintext) {
   var spaces = sessionStorage.getItem(algo + "_spaces");
   var punctuation = sessionStorage.getItem(algo + "_punctuation");
   var char_case = sessionStorage.getItem(algo + "_case");
 
   if (spaces == "true") {
-    input_text = input_text.replaceAll(" ", "");
-    input_text = input_text.replace(new RegExp(`.{${5}}`, 'g'), '$&' + ' ');
+    plaintext = plaintext.replaceAll(" ", "");
+    plaintext = plaintext.replace(new RegExp(`.{${5}}`, 'g'), '$&' + ' ');
   }
   if (punctuation == "true") {
-    input_text = input_text.replace(/[.,\/#!?'$"%\^&\*;:{}=\-_`~()]/g, "");
+    plaintext = plaintext.replace(/[.,\/#!?'$"%\^&\*;:{}=\-_`~()]/g, "");
   }
   if (char_case == "true") {
-    input_text = input_text.toUpperCase();
+    plaintext = plaintext.toUpperCase();
   }
-  return input_text;
+  return plaintext;
 }
