@@ -7,38 +7,39 @@ body {
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  border-radius: 25px;
-  padding: 15px;
+  border-radius: 1.75vw;
+  padding: 1vw;
   width: 90%;
-  height: 100px;
+  height: 7vw;
   cursor: grab;
   color: black;
 }
 
 .algo_logo {
   align-self: center;
-  max-height: 70px;
-  max-width: 70px;
+  max-height: 5vw;
+  max-width: 5vw;
+  height: auto;
 }
 
 .algo_logo_smaller {
   align-self: center;
-  max-height: 50px;
-  max-width: 50px;
+  max-height: 3.5vw;
+  max-width: 3.5vw;
 }
 
 .algo_name {
   display: flex;
   flex-direction: column;
-  margin-left: 5px;
-  font-size: x-large;
+  margin-left: 0.35vw;
+  font-size: 1.6vw;
   font-weight: bold;
 }
 
 .algo_description {
   display: flex;
   text-align: left;
-  font-size: small;
+  font-size: 0.9vw;
   font-weight: normal;
 }
 
@@ -49,27 +50,41 @@ form {
   flex-direction: row;
 }
 
-
-
+input[type="checkbox"]{
+  width: 1vw;
+  height: 1vw;
+};
 input[type="number"] {
-  width: 30;
+  width: 3vw;
+  height: 1.5vw
+}
+input[type='text']{
+  width: 11vw;
+  height: 1.5vw;
 }
 
 .algo_inputs {
   display: none;
   width: 55%;
-  height: 60px;
-  border-radius: 25px;
-  padding: 20px;
-  font-size: medium;
+  height: 4vw;
+  border-radius: 1.75vw;
+  padding: 1.4vw;
+  font-size: 1.2vw;
   font-weight: normal;
+}
+
+.algo_remove {
+  display:flex;
+  width: 3vw;
+  height:3vw;
+  padding: 0.54vw;
 }
 
 .algo_inputs_column {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 60px;
+  height: 4vw;
   width: 45%;
 }
 
@@ -78,7 +93,7 @@ input[type="number"] {
   flex-direction: row;
   height: fit-content;
   width: 100%;
-  gap: 5px;
+  gap: 0.35vw;
 }
 
 #selection {
@@ -93,7 +108,7 @@ input[type="number"] {
   justify-content: center;
   width: 70%;
   height: fit-content;
-  gap: 20px;
+  gap: 1.4vw;
   justify-content: center;
 }
 
@@ -101,8 +116,8 @@ input[type="number"] {
   position: relative;
   flex-direction: column;
   width: 90%;
-  height: 200px;
-  border-radius: 25px;
+  height: 14vw;
+  border-radius: 1.75vw;
   padding: 2%;
   justify-content: flex-end;
   background-color: lightgray;
@@ -113,20 +128,21 @@ input[type="number"] {
   resize: none;
   width: 90%;
   height: 75%;
-  padding: 20px;
+  padding: 1.4vw;
   justify-content: center;
   align-items: center;
   outline: none;
-  font-size: small;
+  font-size: 0.9vw;
 }
 
 #generate_text {
-  width: 150px;
-  height: 35px;
+  font-size: 0.9vw;
+  width: 10.5vw;
+  height: 2.4vw;
   background-color: white;
   position: absolute;
-  right: 5px;
-  bottom: 5px;
+  right: 0.35vw;
+  bottom: 0.35vw;
   justify-content: center;
   align-items: center;
 }
@@ -146,32 +162,32 @@ input[type="number"] {
 #submit {
   display: none;
   width: fit-content;
-  height: 45px;
+  height: 3.1vw;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 0.7vw;
   background-color: #12db30;
   color: white;
-  font-size: x-large;
-  padding: 15px;
+  font-size: 1.6vw;
+  padding: 1vw;
 }
 
 #drop_area {
   display: flex;
   flex-flow: row wrap;
   width: 100%;
-  padding: 15px;
+  padding: 1vw;
 }
 
 #drop_target {
   resize: none;
   width: 100%;
-  height: 100px;
-  border-radius: 20px;
+  height: 7vw;
+  border-radius: 1.4vw;
   justify-content: flex-start;
   border-style: dashed;
   text-align: center;
-  font-size: large;
+  font-size: 1.4vw;
 }
 
 a {
@@ -188,19 +204,24 @@ a {
 .results_column {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.35vw;
 }
 
 .results_section {
   display: flex;
   flex-direction: column;
-  font-size: small;
-  height: fit-content;
+  font-size: 0.9vw;
+  height:fit-content;
+  min-height: 1vw;
   justify-content: center;
   align-items: stretch;
-  border-radius: 20px;
+  border-radius: 1.4vw;
   padding: 2%;
-  gap: 2px;
+  padding-left: 6%;
+  padding-right: 6%;
+  gap: 0.15vw;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .section_content {
@@ -212,21 +233,21 @@ a {
 }
 
 .subheading {
-  font-size: large;
+  font-size: 1.4vw;
   font-weight: bold;
   align-self: center;
   text-align: center;
-  margin-top: 10px
+  margin-top: 0.7vw;
 }
 
 .title {
   flex-direction: row;
-  font-size: x-large;
+  font-size: 2.6vw;
   font-weight: bold;
   text-align: left;
   align-items: center;
   justify-content: space-between;
-  height: 50px;
-  gap: 5px;
-  padding: 10px;
+  height: 3.5vw;
+  gap: 0.35vw;
+  padding: 1.2vw;
 }

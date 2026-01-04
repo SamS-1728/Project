@@ -45,11 +45,14 @@
             <div class="algo_inputs_line">
               <input type="checkbox" id="caesar_case" name="caesar_case" />
               <label for="caesar_case">Remove case</label><br />
-
             </div>
           </div>
         </form>
+        <div>
+          <img class="algo_remove" id='caesar_remove' src="Images/remove.png" onclick="deselect('caesar')">
+        </div>
       </div>
+
       <!--Code for either ciphers is same as above, with algorithm information changed only-->
       <button class="algo_list" id="substitution" draggable="true" disabled="disabled">
         <img class="algo_logo" src="Images/substitution.png" />
@@ -88,6 +91,9 @@
             </div>
           </div>
         </form>
+        <div>
+          <img class="algo_remove" id='substitution_remove' src="Images/remove.png" onclick="deselect('substitution')">
+        </div>
       </div>
 
 
@@ -107,7 +113,7 @@
               <label for="affine_a">a (1-25): </label>
               <input type="number" id="affine_a" name="affine_a" min="1" max="25" placeholder="2" /><br />
             </div>
-            <div style="height:8px"></div>
+            <div style="height:0.5vw"></div>
             <div class="algo_inputs_line">
               <label for="affine_b">b (1-25): </label>
               <input type="number" id="affine_b" name="affine_b" min="0" max="25" placeholder="0" /><br />
@@ -129,6 +135,9 @@
             </div>
           </div>
         </form>
+        <div>
+          <img class="algo_remove" id='affine_remove' src="Images/remove.png" onclick="deselect('affine')">
+        </div>
       </div>
       <!-- All of algorithms can be dragged, however only have a placeholder for inputs, this is to be added in cycle 2-->
       <button class="algo_list" id="polygraphic" draggable="true" disabled="disabled">

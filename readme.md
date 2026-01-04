@@ -12,3 +12,5 @@ Fifth commit - Iterative cycle 1 part 2 - results page barebones layout (with se
 
 Sixth commit - Iterative cycle part 3 (final) - implementation of basic algorithms (caesar, substitution and affine) including all inputs and displaying ciphertext, general design refinements (e.g., submit button, result section sizes etc). 
 Notable ommissions after 1st cycle: validation, inputs for other algorithms, full results (beyond just ciphertext).
+
+Seventh commit: Post 1st cycle - algo history, screen responsiveness, backtracking.

@@ -84,6 +84,55 @@ function initial_page_setup() {
   });
 }
 
+function deselect(algo){
+  /* Undo everything that selection cause*/
+  selected_algorithms.splice(selected_algorithms.indexOf(algo),1);
+  const input = document.getElementById(algo + "_inputs");
+  input.style.display = "none";
+  const parent_div = document.getElementById('selection');
+  const button = document.getElementById(algo);
+  button.style.width = "90%";
+  button.draggable = true;
+  /*Find where to insert in algorithm selection catalogue*/
+  const index = available_algorithms.indexOf(algo);
+  var insert_before = '';
+  for (let i=index+1; i<available_algorithms.length; i++) {
+    if (!selected_algorithms.includes(available_algorithms[i])){
+        insert_before = available_algorithms[i];
+        break;
+    }
+  };
+  if (insert_before != ''){
+    parent_div.insertBefore(button, document.getElementById(insert_before));
+  }else{
+    parent_div.appendChild(button);
+  };
+  /*Sets presence of submit button/drop section to align with validation*/
+  const submitter = document.getElementById("submit");
+  const container = document.getElementById("submit_container");
+  const drop = document.getElementById("drop_target");
+  switch (selected_algorithms.length){
+    case 0:
+    case 1:
+      submitter.style.display = "none";
+      container.style.display = "none";
+      drop.style.display = "flex";
+      break;
+    case 2:
+    case 3:
+      submitter.style.display = "flex";
+      container.style.display = "flex";
+      drop.style.display = "flex";
+      break;
+    case 4:
+      submitter.style.display = "flex";
+      container.style.display = "flex";
+      drop.style.display = "none";
+      break;
+  }
+}
+
+
 /* Shakespeare text handling: random_text() is file handling, extract() is text formatting*/
 function random_text() {
   fetch("shakespeare.txt")
@@ -175,24 +224,23 @@ function final_page_setup() {
       section_heights.push(section_id.offsetHeight);
     }
     new_height = Math.max(...section_heights) - 8;
-    console.log(section_heights)
-    console.log(new_height)
     for (const algo of selected_algorithms) {
       var section_id = document.getElementById(algo + "_" + section);
-      section_id.style.minHeight = new_height + "px";
-      console.log(section_id.offsetHeight);
+      section_id.style.minHeight = (new_height / (window.innerWidth * 0.01)) + "vw";
     }
   }
 }
 
 /* The following functions implement each algorithm and insert these into the results page */
 function caesar() {
+/* Get inputs from session storage*/
   var plaintext = sessionStorage.getItem("plaintext");
   plaintext = general_substitution_inputs_handling("caesar", plaintext);
   var shift = parseInt(sessionStorage.getItem("caesar_shift")) % 26;
   var ciphertext = "";
   for (var i = 0; i < plaintext.length; i++) {
     var value = plaintext.charCodeAt(i);
+/* This shifts each uppercase character, ensuring mod 26*/
     if (value >= 65 && value <= 90) {
       if (value + shift > 90) {
         value += shift - 26;
@@ -200,6 +248,7 @@ function caesar() {
         value += shift;
       }
       ciphertext += String.fromCharCode(value);
+/* This shifts each lowercase character, ensuring mod 26*/
     } else if (value >= 97 && value <= 122) {
       if (value + shift > 122) {
         value += shift - 26;
@@ -211,28 +260,29 @@ function caesar() {
       ciphertext += plaintext[i];
     }
   }
+/* Insert result into results page*/
   document.getElementById("caesar_ciphertext_content").innerHTML += `<p>${ciphertext}</p>`;
 }
 
 function substitution() {
   var plaintext = sessionStorage.getItem("plaintext");
   plaintext = general_substitution_inputs_handling("substitution", plaintext);
-  console.log(plaintext)
   var keyword = sessionStorage.getItem("substitution_keyword").toUpperCase();
   var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var substitution_alphabet = "";
+/* Iterates through the keyword and adds it to the new alphabet */
   for (var i = 0; i < keyword.length; i++) {
     if (alphabet.includes(keyword[i])) {
       substitution_alphabet += keyword[i];
       alphabet = alphabet.replace(keyword[i], "");
     }
   }
+/* Adds the rest of the alphabet */
   substitution_alphabet += alphabet;
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   substitution_alphabet += substitution_alphabet.toLowerCase();
-  console.log(substitution_alphabet)
-  console.log(alphabet)
   var ciphertext = "";
+/* Uses the substitution alphabet to get the ciphertext */
   for (var i = 0; i < plaintext.length; i++) {
     if (alphabet.includes(plaintext[i])) {
       ciphertext += substitution_alphabet[alphabet.indexOf(plaintext[i])];
@@ -240,6 +290,7 @@ function substitution() {
       ciphertext += plaintext[i];
     }
   }
+/* Inserts into results page */
   document.getElementById("substitution_ciphertext_content").innerHTML += `<p>${ciphertext}</p>`;
 }
 
@@ -251,14 +302,18 @@ function affine() {
   var ciphertext = "";
   for (var i = 0; i < plaintext.length; i++) {
     var value = plaintext.charCodeAt(i);
+/* Handles upper case characters*/
     if (value >= 65 && value <= 90) {
+/* Converts to a number between 1 and 26 so MOD can be used */
       value -= 64;
       value = (value * a + b) % 26;
       if (value == 0) {
         value = 26;
       }
       ciphertext += String.fromCharCode(value + 64);
+/* Handles lower case characters*/
     } else if (value >= 97 && value <= 122) {
+/* Converts to a number between 1 and 26 so MOD can be used */
       value -= 96;
       value = (value * a + b) % 26;
       if (value == 0) {
