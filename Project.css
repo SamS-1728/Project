@@ -54,6 +54,10 @@ input[type="checkbox"]{
   width: 1vw;
   height: 1vw;
 };
+input[type="radio"]{
+  width: 1vw;
+  height:1vw;
+}
 input[type="number"] {
   width: 3vw;
   height: 1.5vw
@@ -61,6 +65,22 @@ input[type="number"] {
 input[type='text']{
   width: 11vw;
   height: 1.5vw;
+}
+
+#playfair_additional{
+  display: none;
+}
+
+#homophonic_additional{
+  display: none;
+}
+
+#rsa_small_additional{
+  display: none;
+}
+
+#rsa_big_additional{
+  display:none;
 }
 
 .algo_inputs {
@@ -227,9 +247,11 @@ a {
 .section_content {
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: top;
   justify-content: center;
   text-align: center;
+  word-break: break-all;
+  white-space: normal;
 }
 
 .subheading {

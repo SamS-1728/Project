@@ -149,7 +149,32 @@
           </div>
         </div>
       </button>
-      <div class="algo_inputs" id="polygraphic_inputs">Input here</div>
+      <div class="algo_inputs" id="polygraphic_inputs">
+        <form>
+          <div class="algo_inputs_column" style="width:60%">
+            <div class="algo_inputs_line">
+              <input type="radio" id="polygraphic_random" name="polygraphic_choice" value="random" />
+              <label for="polygraphic_random">Random bigraphic substitution</label>
+            </div>
+            <div class="algo_inputs_line">
+              <input type="radio" id="polygraphic_playfair" name="polygraphic_choice" value="playfair" />
+              <label for="polygraphic_playfair">Playfair cipher</label><br />
+            </div>
+          </div>
+          <div class="algo_inputs_column" id="playfair_additional">
+            <div class="algo_inputs_line">
+              <label for="playfair_keyword">Keyword: </label>
+            </div>
+            <div class="algo_inputs_line">
+              <input type="text" id="polygraphic_keyword" name="polygraphic_keyword" placeholder="PLAYFAIR" />
+            </div>
+          </div>
+        </form>
+        <div>
+          <img class="algo_remove" id='polygraphic_remove' src="Images/remove.png" onclick="deselect('polygraphic')">
+        </div>
+      </div>
+
 
       <button class="algo_list" id="homophonic" draggable="true" disabled="disabled">
         <img class="algo_logo" src="Images/homophonic.png" />
@@ -160,7 +185,43 @@
           </div>
         </div>
       </button>
-      <div class="algo_inputs" id="homophonic_inputs">Input here</div>
+      <div class="algo_inputs" id="homophonic_inputs">
+        <form>
+          <div class="algo_inputs_column" style="width:65%">
+            <div class="algo_inputs_line">
+              <input type="radio" id="homophonic_mantuan" name="homophonic_choice" value="mantuan" />
+              <label for="homophonic_mantuan">Mantuan cipher</label>
+            </div>
+            <div class="algo_inputs_line">
+              <input type="radio" id="homophonic_keyword_choice" name="homophonic_choice" value="keyword_choice" />
+              <label for="homophonic_keyword_choice">Keyword homophonic cipher</label><br />
+            </div>
+          
+            <div class="algo_inputs_line" id="homophonic_additional">
+              <label for="homophonic_keyword" style="padding-top:0.3vw">Keyword: </label>
+              <input type="text" id="homophonic_keyword" name="homophonic_keyword" placeholder="CIPHER" />
+            </div>
+           </div> 
+          <div class="algo_inputs_column">
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="homophonic_spaces" name="homophonic_spaces" />
+              <label for="homophonic_spaces">Remove spaces</label>
+            </div>
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="homophonic_punctuation" name="homophonic_punctuation" />
+              <label for="homophonic_punctuation">Remove punctuation</label><br />
+            </div>
+            <div class="algo_inputs_line">
+              <input type="checkbox" id="homophonic_case" name="homophonic_case" />
+              <label for="homophonic_case">Remove case</label><br />
+
+            </div>
+          </div>
+        </form>
+        <div>
+          <img class="algo_remove" id='homophonic_remove' src="Images/remove.png" onclick="deselect('homophonic')">
+        </div>
+      </div>
 
       <button class="algo_list" id="rsa" draggable="true" disabled="disabled">
         <img class="algo_logo" src="Images/rsa.png" />
@@ -171,7 +232,31 @@
           </div>
         </div>
       </button>
-      <div class="algo_inputs" id="rsa_inputs">Input here</div>
+      <div class="algo_inputs" id="rsa_inputs">
+        <form>
+          <div class="algo_inputs_column">
+            <div class="algo_inputs_line">
+              <input type="radio" id="rsa_small" name="rsa_choice" value="small" />
+              <label for="rsa_small">Small value example</label>
+            </div>
+            <div class="algo_inputs_line">
+              <input type="radio" id="rsa_big" name="rsa_choice" value="big" />
+              <label for="rsa_big">Full RSA</label><br />
+            </div>
+          </div>
+          <div class="algo_inputs_column">
+            <div class="algo_inputs_line" id="rsa_small_additional">
+              <p>Prime size: up to 10 bits<br/>Public key: 3</p>
+            </div>
+            <div class="algo_inputs_line" id="rsa_big_additional">
+              <p>Prime size: 1024 bits<br/>Public key: 65537</p>
+            </div>
+          </div>
+        </form>
+        <div>
+          <img class="algo_remove" id='rsa_remove' src="Images/remove.png" onclick="deselect('rsa')">
+        </div>
+      </div>
 
       <button class="algo_list" id="md5" draggable="true" disabled="disabled">
         <img class="algo_logo" src="Images/md5.png" />
@@ -182,7 +267,14 @@
           </div>
         </div>
       </button>
-      <div class="algo_inputs" id="md5_inputs">Input here</div>
+      <div class="algo_inputs" id="md5_inputs">
+        <div class="algo_inputs_column" style="width:90%">
+          <p>No available inputs</p>
+        </div>
+        <div>
+          <img class="algo_remove" id='md5_remove' src="Images/remove.png" onclick="deselect('md5')">
+        </div>
+      </div>
 
       <button class="algo_list" id="sha256" draggable="true" disabled="disabled">
         <img class="algo_logo" src="Images/sha256.png" />
@@ -193,7 +285,14 @@
           </div>
         </div>
       </button>
-      <div class="algo_inputs" id="sha256_inputs">Input here</div>
+      <div class="algo_inputs" id="sha256_inputs">
+        <div class="algo_inputs_column" style="width:90%">
+          <p>No available inputs</p>
+        </div>
+        <div>
+          <img class="algo_remove" id='sha256_remove' src="Images/remove.png" onclick="deselect('sha256')">
+        </div>
+      </div>
     </div>
     <!-- Data input field includes generate random button, which generates shakespearean text by running a function in our JS-->
     <div id="input">

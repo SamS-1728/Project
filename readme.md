@@ -14,3 +14,5 @@ Sixth commit - Iterative cycle part 3 (final) - implementation of basic algorith
 Notable ommissions after 1st cycle: validation, inputs for other algorithms, full results (beyond just ciphertext).
 
 Seventh commit: Post 1st cycle - algo history, screen responsiveness, backtracking.
+
+8th commit: Cycle 2 part 1 - polygraphic, homophonic and rsa, plus all inputs.
