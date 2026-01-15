@@ -304,6 +304,12 @@ function final_page_setup() {
       case "rsa":
         rsa()
         break;
+      case "md5":
+        md5()
+        break;
+      case "sha256":
+        sha256()
+        break;
     }
   }
 
@@ -332,6 +338,27 @@ function final_page_setup() {
         new_height / (window.innerWidth * 0.01) + "vw";
     }
   }
+}
+
+/* Acts on the inputs that are used across the general substitution ciphers */
+function general_substitution_inputs_handling(algo, plaintext) {
+  var spaces = sessionStorage.getItem(algo + "_spaces");
+  var punctuation = sessionStorage.getItem(algo + "_punctuation");
+  var char_case = sessionStorage.getItem(algo + "_case");
+
+  if (spaces == "true") {
+    plaintext = plaintext.replaceAll(" ", "");
+    if (algo != "polygraphic") {
+      plaintext = plaintext.replace(new RegExp(`.{${5}}`, "g"), "$&" + " ");
+    }
+  }
+  if (punctuation == "true") {
+    plaintext = plaintext.replace(/[.,\/#!|?'$"%\^&\*;:<{}=\-_`~()\[\]]/g, "");
+  }
+  if (char_case == "true") {
+    plaintext = plaintext.toUpperCase();
+  }
+  return plaintext;
 }
 
 /* The following functions implement each algorithm and insert these into the results page */
@@ -699,8 +726,6 @@ function generate_primes_up_to_1000(){
           num_array[j] = 0
         }
       }
-    }else {
-      break;
     }
   }
   //Remove all 0s
@@ -805,23 +830,223 @@ function extended_euclidean_algorithm(a,b){
 }
 //End of rsa linked algorithms
 
-/* Acts on the inputs that are used across the general substitution ciphers */
-function general_substitution_inputs_handling(algo, plaintext) {
-  var spaces = sessionStorage.getItem(algo + "_spaces");
-  var punctuation = sessionStorage.getItem(algo + "_punctuation");
-  var char_case = sessionStorage.getItem(algo + "_case");
+function md5(){
+  //Generate array of s-values following pattern
+  var s = Array(4).fill([7,12,17,22]).flat() 
+  var s2 = Array(4).fill([5,9,14,20]).flat()
+  var s3 = Array(4).fill([4,11,16,23]).flat()
+  var s4 = Array(4).fill([6,10,15,21]).flat()
+  s.push(s2,s3,s4)
+  s = s.flat()
+  
+  //Generate k values using sine function
+  var k = []
+  for (let i=1; i<65; i++){
+    k.push(Math.floor(2**32 * Math.abs(Math.sin(i))))
+  }
+  
+  //Initialisation vectors for A-D
+  var a0 = 0x67452301
+  var b0 = 0xefcdab89
+  var c0 = 0x98badcfe
+  var d0 = 0x10325476
 
-  if (spaces == "true") {
-    plaintext = plaintext.replaceAll(" ", "");
-    if (algo != "polygraphic") {
-      plaintext = plaintext.replace(new RegExp(`.{${5}}`, "g"), "$&" + " ");
+  //General handling for hashing algorithms, true = little endian
+  var plaintext_array = hash_plaintext_handling(true)
+
+  //Iterate through each 512 bit string
+  for (let j=0; j<plaintext_array.length; j++){
+    //Convert 512 bit string into 16 32-bit words
+    var plaintext_divided = plaintext_array[j].match(/(.{1,32})/g)
+    var binary_plaintext_divided = new Uint32Array(16)
+    //Convert 32-bit words to binary values using little endian
+    for (let i=0; i<16; i++){
+      var byte_string = ''
+      for (let k=24; k>=0; k-=8){
+        byte_string += plaintext_divided[i].slice(k, k+8)
+      }
+      binary_plaintext_divided[i] = parseInt(byte_string, 2)
     }
+    //Set ABCD to match initalisation vectors
+    var A = a0
+    var B = b0
+    var C = c0
+    var D = d0
+    //Define which F and g to use depending on the round
+    for (let i=0; i<64; i++){
+      if (i >=0 && i<=15){
+        var F = (B&C) | (D& (~B >>> 0))
+        var g = i
+      }else if (i >=16 && i<=31){
+        var F = (B&D) | (C& (~D >>> 0))
+        var g = (i*5 +1)%16
+      }else if (i >=32 && i<=47){
+        var F = B^C^D
+        var g = (i*3 +5)%16
+      }else if (i >=48 && i<=63){
+        var F = C ^ (B| (~D >>> 0))
+        var g = (i*7)%16
+      }
+      //Adjust ABCD following the algorithm
+      F = (F + A + k[i] + binary_plaintext_divided[g]) >>> 0
+      A = D
+      D = C
+      C = B
+      B = (B + ((F << s[i]) | (F >>> (32-s[i])))) >>> 0
+    }
+    //Add these values to the overall values ensuring mod 2^32
+    a0 = (a0 + A)%2**32
+    b0 = (b0 + B)%2**32
+    c0 = (c0 + C)%2**32
+    d0 = (d0 + D)%2**32
   }
-  if (punctuation == "true") {
-    plaintext = plaintext.replace(/[.,\/#!|?'$"%\^&\*;:<{}=\-_`~()\[\]]/g, "");
+
+  //format output of final hash using little endian
+  hash = format_output(a0) + format_output(b0) + format_output(c0) + format_output(d0)
+  //Insert into results page
+  document.getElementById(
+    "md5_ciphertext_content"
+  ).innerHTML += `<p>${hash}</p>`;
+}
+
+//For md5 - Given an 8 character hex string, convert to little endian output
+function format_output(a){
+  a = a.toString(16).padStart(8, '0')
+  var out = ''
+  for (let i=6; i>=0;i-=2){
+    out += a.slice(i, i+2)
   }
-  if (char_case == "true") {
-    plaintext = plaintext.toUpperCase();
+  return out
+}
+
+function sha256(){
+  //Initial values are calculated using the first 64 primes, hence reuse previous code to simplify this
+  var small_primes = generate_primes_up_to_1000()
+  //H values are the fractional parts of the square roots of the first 8 primes
+  var h = new Uint32Array(8)
+  for (let i=0; i<8; i++){
+    var value = Math.floor((Math.sqrt(small_primes[i]) - Math.floor(Math.sqrt(small_primes[i])))* (2**32))
+    h[i] = value
   }
-  return plaintext;
+  //K values are the fractional parts of the cube roots of the first 64 primes
+  var k = new Uint32Array(64)
+  for (let i=0; i<64; i++){
+    var value = Math.floor((Math.cbrt(small_primes[i]) - Math.floor(Math.cbrt(small_primes[i])))* (2**32))
+    k[i] = value
+  }
+
+  //Same handling for md5 inputs, except with false signifying big endian
+  var plaintext_array = hash_plaintext_handling(false)
+
+
+  for (let j=0; j<plaintext_array.length; j++){
+    //Convert 512 bit string into 16 32-bit words
+    var plaintext_divided = plaintext_array[j].match(/(.{1,32})/g)
+    //First 16 W values are plaintext, the other 48 use combinations of rotations/shifts of these
+    var w = new Uint32Array(64)
+    for (let i=0; i<64; i++){
+      if (i<16){
+        w[i] = parseInt(plaintext_divided[i], 2)
+      }else{
+        var s0 = right_rotate(w[i-15],7) ^ right_rotate(w[i-15],18) ^ (w[i-15] >>> 3)
+        var s1 = right_rotate(w[i-2],17) ^ right_rotate(w[i-2],19) ^ (w[i-2] >>> 10)
+        w[i] = (w[i-16] + s0 + w[i-7] + s1) >>>0
+      }
+    }
+    //Initialise a-h as the set h values
+    var a = h[0]
+    var b = h[1]
+    var c = h[2]
+    var d = h[3]
+    var e = h[4]
+    var f = h[5]
+    var g = h[6]
+    //We used an array for h rather than h0,h1 etc hence h would refer to the array, 
+    //therefore h_val represents the h value in our implementation
+    var h_val = h[7]
+
+    //Calculate the values s0,s1,ch,maj,temp1,temp2 as defined in the algorithm
+    for (let i=0; i<64; i++){
+      var s1 = right_rotate(e, 6) ^ right_rotate(e, 11) ^ right_rotate(e, 25)
+      var ch = (e&f) ^ ((~e >>> 0) &g)
+      var temp1 = (h_val + s1 + ch + k[i] + w[i]) >>>0
+      var s0 = right_rotate(a, 2) ^ right_rotate(a, 13) ^ right_rotate(a, 22)
+      var maj = (a&b) ^ (a&c) ^ (b&c)
+      var temp2 = (s0 + maj) >>>0
+
+      //Update values a-h accordingly
+      h_val = g
+      g = f
+      f = e
+      e = (d + temp1) >>>0
+      d = c
+      c = b
+      b = a
+      a = (temp1 + temp2) >>>0
+    }
+    //Add a-h values to our h values (ensuring mod 2**32 using >>>0)
+    h[0] = (h[0] + a)>>>0
+    h[1] = (h[1] + b)>>>0
+    h[2] = (h[2] + c)>>>0
+    h[3] = (h[3] + d)>>>0
+    h[4] = (h[4] + e)>>>0
+    h[5] = (h[5] + f)>>>0
+    h[6] = (h[6] + g)>>>0
+    h[7] = (h[7] + h_val)>>>0
+  }
+  //Get final hash as hex string
+  var hash = ''
+  for (let i of h){
+    hash += i.toString(16).padStart(8, '0')
+  }
+  //Insert into results page
+  document.getElementById(
+    "sha256_ciphertext_content"
+  ).innerHTML += `<p>${hash}</p>`;
+}
+
+//Carries out a circular right rotation by shifting right to get the ending bits, 
+//shifting (32 - places) left to get the starting bits and using an OR to combine them
+function right_rotate(value, places){
+  return ((value >>> places) | (value << (32 - places))) >>> 0;
+}
+
+function hash_plaintext_handling(endianness){
+  //Encode text in binary
+  var plaintext = sessionStorage.getItem("plaintext")
+  var encoder = new TextEncoder()
+  var plaintext_values = encoder.encode(plaintext)
+  var plaintext_length = plaintext_values.length*8
+  var binary_plaintext = ''
+  for (let i of plaintext_values){
+    binary_plaintext += i.toString(2).padStart(8, '0')
+  }
+  //Append 1 and then x 0s to ensure length is 448 mod 512
+  binary_plaintext += '1'
+  if (binary_plaintext.length%512 > 448){
+    binary_plaintext += '0'.repeat(960 - binary_plaintext.length%512)
+  }else {
+    binary_plaintext += '0'.repeat(448 - binary_plaintext.length%512)
+  }
+  
+  //Get length of plaintext in little or big endian binary
+  var buffer = new ArrayBuffer(8)
+  var view = new DataView(buffer)
+  //setUint32 allows endianness to be passed in as we are using dataview,
+  //however this must be done in two parts as there is no version for 64 bits, 
+  //but we must these two steps in different orders to ensure endianness
+  if (endianness == false){
+    view.setUint32(4, plaintext_length>>>0, endianness)
+    view.setUint32(0, Math.floor(plaintext_length/ (2**32)), endianness)
+  }else{
+    view.setUint32(0, plaintext_length>>>0, endianness)
+    view.setUint32(4, Math.floor(plaintext_length/ (2**32)), endianness)
+  }
+  var lengthLE = new Uint8Array(buffer)
+  for (let i of lengthLE){
+    binary_plaintext += i.toString(2).padStart(8, '0')
+  }
+  //Split into array of 512 bit strings
+  var plaintext_array = binary_plaintext.match(/(.{1,512})/g)
+  return plaintext_array
 }

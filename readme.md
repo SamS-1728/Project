@@ -16,3 +16,5 @@ Notable ommissions after 1st cycle: validation, inputs for other algorithms, ful
 Seventh commit: Post 1st cycle - algo history, screen responsiveness, backtracking.
 
 8th commit: Cycle 2 part 1 - polygraphic, homophonic and rsa, plus all inputs.
+
+9th commit: Cycle 2 part 2 - md5 and sha256 hashes.
