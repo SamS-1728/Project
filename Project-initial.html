@@ -139,7 +139,6 @@
           <img class="algo_remove" id='affine_remove' src="Images/remove.png" onclick="deselect('affine')">
         </div>
       </div>
-      <!-- All of algorithms can be dragged, however only have a placeholder for inputs, this is to be added in cycle 2-->
       <button class="algo_list" id="polygraphic" draggable="true" disabled="disabled">
         <img class="algo_logo" src="Images/polygraphic.png" />
         <div class="algo_name">
@@ -153,7 +152,7 @@
         <form>
           <div class="algo_inputs_column" style="width:60%">
             <div class="algo_inputs_line">
-              <input type="radio" id="polygraphic_random" name="polygraphic_choice" value="random" />
+              <input type="radio" id="polygraphic_random" name="polygraphic_choice" value="random"/>
               <label for="polygraphic_random">Random bigraphic substitution</label>
             </div>
             <div class="algo_inputs_line">
@@ -163,7 +162,7 @@
           </div>
           <div class="algo_inputs_column" id="playfair_additional">
             <div class="algo_inputs_line">
-              <label for="playfair_keyword">Keyword: </label>
+              <label for="polygraphic_keyword">Keyword: </label>
             </div>
             <div class="algo_inputs_line">
               <input type="text" id="polygraphic_keyword" name="polygraphic_keyword" placeholder="PLAYFAIR" />
@@ -296,15 +295,16 @@
     </div>
     <!-- Data input field includes generate random button, which generates shakespearean text by running a function in our JS-->
     <div id="input">
-      <div class="input_box">
+      <div class="input_box" id="plaintext_area">
         <textarea class="input_box" id="plaintext" placeholder="Input data here"></textarea>
         <button class="input_box" id="generate_text" onclick="random_text()">
           Generate random text
         </button>
       </div>
       <!-- Submit opens the next page and uses the JS to pass over any required data-->
-      <div id="submit_container"><a href="Project-result.html"><button id="submit"
-            onclick="initial_submit()">Submit</button></a></div>
+      <div id="submit_container">
+        <div id="validation_error"><div id="warning_icon">⚠</div><div id='validation_error_text'>Please enter valid inputs in all required fields<div id="validation_error_specifics"></div></div></div>
+        <a href="Project-result.html" onclick="return validate_initial_submit()"><button id="submit">Submit</button></a></div>
       <div id="drop_area">
         <!-- This is where algorithm are dropped and subsequently appear, this is controlled by the JS-->
         <textarea id="drop_target" disabled="disabled">Drop algorithms here</textarea>

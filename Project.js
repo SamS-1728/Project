@@ -190,6 +190,15 @@ function deselect(algo) {
       drop.style.display = "none";
       break;
   }
+
+  if (error_dict){
+    for (key in error_dict){
+      if (key.substring(0,algo.length) == algo){
+        error_dict[key]=0
+      }
+    }
+    check_errors()
+  }
 }
 
 /* Shakespeare text handling: random_text() is file handling, extract() is text formatting*/
@@ -204,6 +213,225 @@ function extract(text) {
   text = text.slice(text.indexOf("\n") + 1, text.lastIndexOf("\n"));
   text = text.replace(/\s+/g, " ");
   document.getElementById("plaintext").value = text.slice(1);
+}
+
+//Controls all individual validation after submit
+function validate_initial_submit(){
+  //Stores which elements have validation errors, global for easier use
+  globalThis.error_dict = {}
+  validate_element("plaintext", "plaintext")
+  //Validate depending on selected algorithms
+  for (const algo of selected_algorithms){
+    switch (algo){
+      case "caesar":
+        validate_element("caesar_shift", 'number')
+        break
+      case "substitution":
+        validate_element("substitution_keyword", 'keyword')
+        break
+      case "affine":
+        validate_element("affine_a", 'number')
+        validate_element("affine_b", 'number')
+        break
+      case "polygraphic":
+        validate_radio("polygraphic_playfair", "polygraphic_random", "polygraphic_keyword")
+        break
+      case "homophonic":
+        validate_radio("homophonic_keyword_choice", "homophonic_mantuan", "homophonic_keyword")
+        break
+      case "rsa":
+        validate_radio("rsa_small", "rsa_big", false)
+        break
+    }
+  }
+  //Determine if all validation has passed
+  error_count = check_errors()
+  if (error_count == 0){
+    initial_submit()
+  }else{
+    return false;
+  }
+}
+
+//Validates one element by it's html id,
+//Types available: number, keyword and plaintext (radio is separate)
+function validate_element(element_name, type){
+  var element = document.getElementById(element_name)
+  error_dict[element_name] = 0
+  //Check() validates depending on type
+  if (check(type, element.value)==false){
+    //Use dict to acknowledge the presence of error
+    error_dict[element_name]=1
+    //Apply red border
+    error_css(element, element_name)
+    //Event listener to determine if error gets fixed
+  }
+  element.addEventListener("input", () => {
+    //If error is fixed then unfixed
+    if (check(type, element.value)==false && error_dict[element_name]==0){
+      error_css(element, element_name)
+      error_dict[element_name]=1
+    //If error is fixed
+    }else if (check(type, element.value)==true&&error_dict[element_name]==1) {
+      //Undoes red border 
+      reverse_error_css(element, element_name)
+      error_dict[element_name]=0
+    }
+    //Display or remove error box as necessary
+    check_errors()
+  })
+  if (type == "plaintext"){
+    var generate_text_button = document.getElementById("generate_text")
+    generate_text_button.addEventListener("click", () => {
+      reverse_error_css(element, element_name)
+      error_dict[element_name]=0
+      check_errors()
+    })
+  }
+}
+
+//Validate radio buttons and associated keyword (if no keyword, last parameter = false)
+function validate_radio(keyword_opt_name, other_opt_name, keyword_entry_name){
+  const keyword_opt = document.getElementById(keyword_opt_name)
+  const other_opt = document.getElementById(other_opt_name)
+  const opt_list = [keyword_opt, other_opt]
+  error_dict[keyword_opt_name] = 0
+  //If no option selected
+  if (!keyword_opt.checked && !other_opt.checked){
+    error_dict[keyword_opt_name] = 1
+    //Simple error css for radios
+    keyword_opt.style.outline = "0.2vw solid #ff2c2c"
+    other_opt.style.outline = "0.2vw solid #ff2c2c"
+    //Event listener detects if either of them changes
+    opt_list.forEach((option) => {
+      option.addEventListener("change", () => {
+        //As soon as one is checked
+        if (keyword_opt.checked || other_opt.checked){
+          error_dict[keyword_opt_name] = 0
+          keyword_opt.style.outline = ""
+          other_opt.style.outline = ""
+        }
+        if (other_opt.checked){
+          error_dict[keyword_entry_name]=0
+        }
+        //Display/remove error box as appropriate
+        check_errors()
+      })
+    })
+  }
+  //If keyword exists
+  if (keyword_entry_name!=false){
+    //If correct option checkded, then validate
+    if (keyword_opt.checked){
+      validate_element(keyword_entry_name, "keyword")
+    }
+    //Use event listener to detect change, and then validate if present
+    keyword_opt.addEventListener("change", () => {
+      if (keyword_opt.checked){
+        validate_element(keyword_entry_name, "keyword")
+      }
+      check_errors()
+    })
+    check_errors()
+  }
+  //Display/remove error box as appropriate
+  check_errors()
+}
+
+//Controls error box
+function check_errors(){
+  var error_box = document.getElementById("validation_error")
+  //Finds number of values that are equal to 1
+  error_count = Object.values(error_dict).filter(val => val === 1).length
+  //If 0 remove error box, else display it
+  if (error_count == 0){
+    error_box.style.display = 'none'
+  }else{
+    for (key in error_dict){
+      if (error_dict[key] == 1){
+        var first_error = key
+        break;
+      }
+    }
+    switch (first_error){
+      case "plaintext":
+        var msg = '(Plaintext must be between 1 and 3000 characters long)'
+        break
+      case "caesar_shift":
+      case "affine_a":
+      case "affine_b":
+        var msg = '(Numerical inputs may have size restrictions)'
+        break
+      case "substitution_keyword":
+      case "polygraphic_keyword":
+      case "homophonic_keyword":
+        var msg = '(Keyword inputs must only contain alphabetic characters)'
+        break
+      case "polygraphic_playfair":
+      case "homophonic_keyword_choice":
+      case "rsa_small":
+        var msg = '(Ensure an option is chosen if two are presented)'
+        break
+    }
+    document.getElementById("validation_error_specifics").innerHTML = msg
+    error_box.style.display = 'flex'
+  }
+  return error_count
+}
+
+//Display red box around erroneous element
+function error_css(element, element_name){
+  //Plaintext handled separately 
+  if (element_name == 'plaintext'){
+    var plaintext_area = document.getElementById("plaintext_area")
+    plaintext_area.style.border = '0.2vw solid #ff2c2c'
+    plaintext_area.style.borderWidth = '0.4vw'
+  }else{
+    //Give a red border and undo default form styling as needed
+    element.style.border = '0.2vw solid #ff2c2c'
+    element.style.boxShadow = 'none'
+    element.style.borderRadius = '0.4vw'
+  }
+}
+//Undoes red box when errors fixed
+function reverse_error_css(element, element_name){
+  //Set all values to an empty string, this causes default styling as before
+  if (element_name == 'plaintext'){
+    var plaintext_area = document.getElementById("plaintext_area")
+    plaintext_area.style.border = ''
+    plaintext_area.style.borderWidth = ''
+  }else{
+    element.style.border = ''
+    element.style.boxShadow = ''
+    element.style.borderRadius = ''
+  }
+}
+
+//Validate an element depending on type
+function check(type, val){
+  //Ensure all numbers only include digits
+  if (type == 'number'){
+    if (!/^\d+$/.test(val)){
+      return false
+    }
+  //Ensure between 1-25 (for affine and caesar)
+    if (Number(val) < 1 || Number(val) > 25){
+      return false
+    }
+    return true
+  //Ensure keywords only contain alphabetic letters
+  }else if (type == "keyword"){
+    if (!/^[A-Za-z]+$/.test(val)){
+      return false
+    }
+    return true
+  //Ensure plaintext between 1 and 3000 chars 
+  }else if (type == "plaintext"){
+    if (val.length>=1 && val.length<=3000){
+      return true
+    }
+    return false
+  }
 }
 
 /* Handles the submission of the initial page */
@@ -495,12 +723,24 @@ function polygraphic() {
     /*Playfair cipher cannot encrypt two of the same letter, 
     so this pads with an additional X in between*/
     var updated_plaintext = "";
-    for (let i = 0; i < plaintext.length - 1; i++) {
+    for (let i = 0; i < plaintext.length - 1; i+=2) {
+      updated_plaintext += plaintext[i];
+      if (plaintext[i] == plaintext[i + 1]) {
+        updated_plaintext += "X";
+        i -= 1
+      }else{
+        updated_plaintext += plaintext[i+1]
+      }
+      if (i == plaintext.length-3){
+        updated_plaintext += plaintext[plaintext.length-1]
+      }
+    }
+    /**for (let i = 0; i < plaintext.length - 1; i++) {
       updated_plaintext += plaintext[i];
       if (plaintext[i] == plaintext[i + 1]) {
         updated_plaintext += "X";
       }
-    }
+    }**/
     plaintext = updated_plaintext;
     /*Holds row and column values for each letter in a dictionary to speed up 
     process for longer texts: key = letter, value = [row, column] */
@@ -938,11 +1178,11 @@ function sha256(){
   //Same handling for md5 inputs, except with false signifying big endian
   var plaintext_array = hash_plaintext_handling(false)
 
-
   for (let j=0; j<plaintext_array.length; j++){
     //Convert 512 bit string into 16 32-bit words
     var plaintext_divided = plaintext_array[j].match(/(.{1,32})/g)
-    //First 16 W values are plaintext, the other 48 use combinations of rotations/shifts of these
+    //First 16 W values are plaintext, the other 48 use combinations of 
+    //rotations/shifts of these
     var w = new Uint32Array(64)
     for (let i=0; i<64; i++){
       if (i<16){

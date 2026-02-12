@@ -177,6 +177,34 @@ input[type='text']{
   width: 90%;
   justify-content: flex-end;
   align-items: center;
+  gap: 3vw;
+}
+
+#validation_error{
+  display:none;
+  background-color: #ff2c2c;
+  width: fit-content;
+  border-radius: 0.7vw;
+  font-size: 1.4vw;
+  color: white;
+  padding: 1vw;
+  gap:0.8vw;
+  align-items: center;
+}
+
+#warning_icon {
+  align-items: flex-start;
+  color: white;
+  height:20px;
+}
+#validation_error_text{
+  display:flex;
+  padding-top: 0.17vw;
+  flex-direction: column;
+  align-items: center;
+}
+#validation_error_specifics{
+  font-size: 0.9vw;
 }
 
 #submit {
