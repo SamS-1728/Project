@@ -595,6 +595,10 @@ function caesar() {
   var plaintext = sessionStorage.getItem("plaintext");
   plaintext = general_substitution_inputs_handling("caesar", plaintext);
   var shift = parseInt(sessionStorage.getItem("caesar_shift")) % 26;
+  //Dynamic explanations - include the shift, A shifted and B shifted in the explanation
+  document.getElementById("caesar_exp_shift").innerHTML = shift
+  document.getElementById("caesar_exp_a_shifted").innerHTML = String.fromCharCode(65+shift)
+  document.getElementById("caesar_exp_b_shifted").innerHTML = String.fromCharCode(65+ (1+shift)%26)
   var ciphertext = "";
   for (var i = 0; i < plaintext.length; i++) {
     var value = plaintext.charCodeAt(i);
@@ -639,6 +643,10 @@ function substitution() {
   }
   /* Adds the rest of the alphabet */
   substitution_alphabet += alphabet;
+  //Dynamic explanations - include the translation alphabet, A shifted and B shifted in the explanation
+  document.getElementById("substituion_exp_alphabet").innerHTML = substitution_alphabet.substring(0, 13) + ' ' + substitution_alphabet.substring(13)
+  document.getElementById("substitution_exp_a_shifted").innerHTML = substitution_alphabet[0]
+  document.getElementById("substitution_exp_b_shifted").innerHTML = substitution_alphabet[1]
   alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   substitution_alphabet += substitution_alphabet.toLowerCase();
   var ciphertext = "";
@@ -661,6 +669,11 @@ function affine() {
   plaintext = general_substitution_inputs_handling("affine", plaintext);
   var a = parseInt(sessionStorage.getItem("affine_a"));
   var b = parseInt(sessionStorage.getItem("affine_b"));
+  //Dynamic explanations - include a and b, the ciphertext value of "A" and its corresponding letter
+  document.getElementById("affine_exp_a").innerHTML = a
+  document.getElementById("affine_exp_b").innerHTML = b
+  document.getElementById("affine_exp_shifted_value").innerHTML = a+b
+  document.getElementById("affine_exp_shifted_letter").innerHTML = String.fromCharCode(65+ (a+b-1)%26)
   var ciphertext = "";
   for (var i = 0; i < plaintext.length; i++) {
     var value = plaintext.charCodeAt(i);
@@ -697,14 +710,16 @@ function polygraphic() {
   /*As polygraphic works on pairs of letters we need to also remove numbers 
   using the regex below */
   plaintext = plaintext.replace(/\d+/g, "");
-
   var ciphertext = "";
-
   var mode = sessionStorage.getItem("polygraphic_mode");
   if (mode == "playfair") {
     var keyword = sessionStorage.getItem("playfair_keyword").toUpperCase();
+    //Display relevant explanation for playfair choice, including keyword
+    document.getElementById("polygraphic_exp_2").style.display = "inline"
+    document.getElementById("polygraphic_exp_keyword").innerHTML =  keyword
     /*As playfair uses a 25 letter alphabet*/
     plaintext = plaintext.replaceAll("J", "I");
+    keyword = keyword.replaceAll("J", "I");
     var alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
     var playfair_alphabet = "";
     /* This uses the keyword to determine the order of the letters in the grid*/
@@ -735,12 +750,6 @@ function polygraphic() {
         updated_plaintext += plaintext[plaintext.length-1]
       }
     }
-    /**for (let i = 0; i < plaintext.length - 1; i++) {
-      updated_plaintext += plaintext[i];
-      if (plaintext[i] == plaintext[i + 1]) {
-        updated_plaintext += "X";
-      }
-    }**/
     plaintext = updated_plaintext;
     /*Holds row and column values for each letter in a dictionary to speed up 
     process for longer texts: key = letter, value = [row, column] */
@@ -778,6 +787,8 @@ function polygraphic() {
     }
   } else {
     /* Random bigraphic substitution */
+    //Display relevant explanation for random bigraphic choice
+    document.getElementById("polygraphic_exp_1").style.display = "inline"
     var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /*Forms array of all letter combinations of length 2*/
     var bigraphic_array = [];
@@ -824,6 +835,9 @@ function homophonic() {
   if (mode == 'keyword_choice'){
     var translation_alphabet = '';
     var keyword = sessionStorage.getItem("homophonic_keyword").toUpperCase();
+    //Display relevant explanation for keyword choice, including keyword
+    document.getElementById("homophonic_exp_2").style.display = "inline"
+    document.getElementById("homophonic_exp_keyword").innerHTML =  keyword
     /*Set up translation alphabet as in basic substitution*/
     for (var i = 0; i < keyword.length; i++) {
       if (alphabet.includes(keyword[i])) {
@@ -849,6 +863,8 @@ function homophonic() {
       }
     }
   }else { /*Sets up translation_dict for mantuan mode */
+    //Display relevant explanation for mantuan choice
+    document.getElementById("homophonic_exp_1").style.display = "inline"
     /* Use string functions to reverse alphabet*/
     var reversed_alphabet = alphabet.split("").reverse().join("");
     /* Use this as the translation alphabet (the convention for Mantuan) */
@@ -886,9 +902,13 @@ function rsa(){
   //Depending on the selected mode we set e (public key), and split the plaintext 
   // into individual sections (individual bytes for small and 128 bytes for big)
  if (rsa_mode=='small'){
+    //Display relevant explanation for small value example choice
+    document.getElementById("rsa_exp_1").style.display = "inline"
     var e = 3n
     var plaintext_array = plaintext.match(/(.{1,1})/g);
   } else{
+    //Display relevant explanation for full RSA choice
+    document.getElementById("rsa_exp_2").style.display = "inline"
     var e = 65537n
     var plaintext_array = plaintext.match(/(.{1,128})/g);
   }

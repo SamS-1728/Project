@@ -20,3 +20,7 @@ Seventh commit: Post 1st cycle - algo history, screen responsiveness, backtracki
 9th commit: Cycle 2 part 2 - md5 and sha256 hashes.
 
 10th commit: Post 2nd cycle - algo corrections and validation improvements.
+
+11th commit: Cycle 3 - explanations.
+
+The end.
